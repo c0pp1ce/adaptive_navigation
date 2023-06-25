@@ -1,7 +1,7 @@
-name: adaptive_navigation
+name: adaptive_navigation_scaffold
 description: A new Flutter package project.
-version: 0.0.2
-homepage:
+version: 0.0.1
+repository: https://github.com/c0pp1ce/adaptive_navigation
 
 environment:
   sdk: ">=3.0.5 <4.0.0"

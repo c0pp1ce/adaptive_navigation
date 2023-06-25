@@ -1,4 +1,4 @@
-part of '../adaptive_navigation.dart';
+part of '../adaptive_navigation_scaffold.dart';
 
 Widget _defaultNavigationBarBuilder(
   BuildContext context,
