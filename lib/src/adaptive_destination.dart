@@ -22,10 +22,12 @@ class AdaptiveDestination {
   /// The label of the destination.
   final String label;
 
-  /// Provides the translated version of the label.
+  /// Should provide the translated version of the label.
   final String Function(BuildContext)? translatedLabel;
 
   final String? tooltip;
+
+  /// Should provide the translated version of the tooltip.
   final String Function(BuildContext)? translatedTooltip;
 
   /// Convenience method to check if a translated label is available.

@@ -10,6 +10,11 @@ part 'default_navigation_widgets/default_rail.dart';
 part 'default_navigation_widgets/default_drawer.dart';
 part 'default_navigation_widgets/default_permanent_drawer.dart';
 
+/// A method that takes an index and triggers the routing/navigation logic.
+///
+/// The builder methods for the different [NavigationType]s are given an
+/// [IndexResolver] which is preconfigured and only needs to be called whenever
+/// a destination is selected (tapped).
 typedef IndexResolver = void Function(int index);
 
 typedef NavigationBarBuilder = Widget Function(
@@ -97,8 +102,11 @@ class AdaptiveNavigation extends StatefulWidget {
   /// The initial index that the widget should be configured with.
   final int initialIndex;
 
-  /// Defines the appearance of the buttons of the different button items for
-  /// each [NavigationType].
+  /// Configures the different tabs/routes that can be reached via the active
+  /// [NavigationType].
+  ///
+  /// Carries additional information to adjust basic appearance of the navigation
+  /// items.
   final List<AdaptiveDestination> destinations;
 
   /// A callback which should execute the routing logic based on the tapped
@@ -114,19 +122,28 @@ class AdaptiveNavigation extends StatefulWidget {
     int index,
   ) onLocationChanged;
 
-  /// A method invoked by this widget in order to determine, if a sub-route of
-  /// a destination is open.
+  /// A method invoked by the [AdaptiveNavigation] in order to determine,
+  /// if a sub-route of a destination is open.
   ///
   /// Used to go back to the initial location of a destination if it is tapped.
   final String Function(BuildContext)? getCurrentLocation;
 
-  /// Maximum number of items to display in the [NavigationBar]
+  /// Maximum number of items to display when using [NavigationType.bottom].
+  ///
+  /// Exceeding items will be placed in a drawer. It may be configured through
+  /// [AdaptiveNavigation.drawerBuilder].
   final int bottomNavigationOverflow;
 
-  /// Maximum number of items to display in the [NavigationRail].
+  /// Maximum number of items to display when using [NavigationType.rail].
+  ///
+  /// Exceeding items will be placed in a drawer. It may be configured through
+  /// [AdaptiveNavigation.drawerBuilder].
   final int railNavigationOverflow;
 
-  /// Maximum number of items to display in the extended [NavigationRail].
+  /// Maximum number of items to display when using [NavigationType.extendedRail].
+  ///
+  /// Exceeding items will be placed in a drawer. It may be configured through
+  /// [AdaptiveNavigation.drawerBuilder].
   final int extendedRailNavigationOverflow;
 
   /// If **true** and there is a destination overflow,<br /> the destinations which
@@ -144,11 +161,16 @@ class AdaptiveNavigation extends StatefulWidget {
   /// tapped.
   final bool closeDrawerAfterNavigation;
 
-  /// Provides a widget that is used as the bottom navigation bar.
+  /// Should provide a widget that is used as the bottom navigation bar.
   ///
   /// ### Usage
   /// ```dart
-  /// navigationBarBuilder: (context, destinations, currentIndex, onDestinationSelected) {
+  /// navigationBarBuilder: (
+  ///   context,
+  ///   destinations,
+  ///   currentIndex,
+  ///   onDestinationSelected,
+  /// ) {
   ///   return NavigationBar(
   ///     selectedIndex: currentIndex,
   ///     onDestinationSelected: onDestinationSelected,
@@ -166,13 +188,23 @@ class AdaptiveNavigation extends StatefulWidget {
   /// ```
   final NavigationBarBuilder navigationBarBuilder;
 
-  /// Provides a widget that is used as rail navigation.
+  /// Should provide a widget that is used as rail navigation.
+  ///
+  /// The widget will be the used as the [Scaffold.body] of the scaffold used by
+  /// this widget.
   ///
   /// Used for [NavigationType.rail] and [NavigationType.extendedRail].
   ///
   /// ### Usage
   /// ```dart
-  /// railBuilder: (context, destinations, currentIndex, onDestinationSelected, isExtended, child) {
+  /// railBuilder: (
+  ///   context,
+  ///   destinations,
+  ///   currentIndex,
+  ///   onDestinationSelected,
+  ///   isExtended,
+  ///   child,
+  /// ) {
   ///   return Row(
   ///     children: [
   ///       NavigationRail(
@@ -196,13 +228,18 @@ class AdaptiveNavigation extends StatefulWidget {
   /// }
   final RailBuilder railBuilder;
 
-  /// Provides a widget that is used as the drawer navigation.
+  /// Should provide a widget that is used as the drawer navigation.
   ///
   /// Used for overflow drawers as well as [NavigationType.drawer].
   ///
   /// ### Usage
   /// ```dart
-  /// drawerBuilder: (context, destinations, currentIndex, onDestinationSelected) {
+  /// drawerBuilder: (
+  ///   context,
+  ///   destinations,
+  ///   currentIndex,
+  ///   onDestinationSelected,
+  /// ) {
   ///   return Drawer(
   ///     child: ListView(
   ///       padding: EdgeInsets.zero,
@@ -223,15 +260,22 @@ class AdaptiveNavigation extends StatefulWidget {
   /// }
   final DrawerBuilder drawerBuilder;
 
-  /// Provides a widget that is used as the permanent drawer navigation.
+  /// Should provide a widget that is used as the permanent drawer navigation.
   ///
-  /// The widget will be the [Scaffold.body].
+  /// The widget will be the used as the [Scaffold.body] of the scaffold used by
+  /// this widget.
   ///
   /// Only used for [NavigationType.permanentDrawer].
   ///
   /// ### Usage
   /// ```dart
-  /// permanentDrawerBuilder: (context, destinations, currentIndex, onDestinationSelected, child) {
+  /// permanentDrawerBuilder: (
+  ///   context,
+  ///   destinations,
+  ///   currentIndex,
+  ///   onDestinationSelected,
+  ///   child,
+  /// ) {
   ///   return Row(
   ///     children: [
   ///       Drawer(
@@ -354,7 +398,9 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
 
   Widget _buildRail(BuildContext context, NavigationType type) {
     final (primaryDestinations, overflowDestinations) = _getDestinations(
-      widget.railNavigationOverflow,
+      type == NavigationType.rail
+          ? widget.railNavigationOverflow
+          : widget.extendedRailNavigationOverflow,
     );
 
     late final Widget? rail;

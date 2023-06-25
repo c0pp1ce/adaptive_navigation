@@ -2,7 +2,7 @@ part of 'adaptive_navigation.dart';
 
 /// Provides the key of the scaffold used by [AdaptiveNavigation].
 ///
-/// This is done to ease providing access to the drawer from within the child.
+/// This eases the access to the drawer from within the child.
 class NavigationScaffoldKeyProvider extends InheritedWidget {
   const NavigationScaffoldKeyProvider({
     required this.scaffoldKey,
