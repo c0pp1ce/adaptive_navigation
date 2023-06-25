@@ -67,6 +67,8 @@ class AdaptiveNavigation extends StatefulWidget {
     this.permanentDrawerBuilder = _defaultPermanentDrawerBuilder,
 
     // scaffold configuration
+    this.primary = true,
+    this.appBar,
 
     // page content
     this.child,
@@ -261,6 +263,12 @@ class AdaptiveNavigation extends StatefulWidget {
   /// ```
   final PermanentDrawerBuilder permanentDrawerBuilder;
 
+  /// [Scaffold.primary].
+  final bool primary;
+
+  /// [Scaffold.appBar].
+  final PreferredSizeWidget? appBar;
+
   /// The actual page content.
   final Widget? child;
 
@@ -396,6 +404,8 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
     return Scaffold(
       key: widget.scaffoldKey,
       // scaffold customization.
+      primary: widget.primary,
+      appBar: widget.appBar,
 
       // navigation.
       bottomNavigationBar: navType == NavigationType.bottom ? navWidget : null,
