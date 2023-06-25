@@ -39,6 +39,7 @@ class _DefaultPermanentDrawer extends StatelessWidget {
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,
                   ),
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                 ),
           ),
           child: _DefaultDrawer(
