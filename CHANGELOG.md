@@ -1,3 +1,7 @@
+## 0.0.3
+
+* Adjusted README to new package name.
+
 ## 0.0.2
 
 * Renamed package.

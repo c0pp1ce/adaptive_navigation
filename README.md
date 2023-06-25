@@ -10,7 +10,7 @@ For general information about developing packages, see the Dart guide for
 and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
-# Adaptive navigation scaffold
+# Adaptive navigation
 
 This package provides a widget which can display different types of navigation based on the screen size.
 
@@ -18,6 +18,7 @@ This package provides a widget which can display different types of navigation b
 
 - Customizable breakpoints
 - Customizable navigation widgets
+- Easy to integrate with packages like GoRouter
 
 <img src="https://raw.githubusercontent.com/c0pp1ce/adaptive_navigation_scaffold/main/example/gifs/adaptive_nav_demo.gif" alt="Gif of the widget in action." width="800">
 
