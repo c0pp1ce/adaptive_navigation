@@ -107,9 +107,13 @@ class AdaptiveNavigation extends StatefulWidget {
   ///
   /// ### Example for GoRouter
   /// ```dart
-  /// onLocationChanged: (context, location) => context.go(location)
+  /// onLocationChanged: (context, location, index) => context.go(location)
   /// ```
-  final void Function(BuildContext context, String location) onLocationChanged;
+  final void Function(
+    BuildContext context,
+    String location,
+    int index,
+  ) onLocationChanged;
 
   /// A method invoked by this widget in order to determine, if a sub-route of
   /// a destination is open.
@@ -443,6 +447,7 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
       widget.onLocationChanged(
         context,
         selectedDestination.initialLocation,
+        index,
       );
       setState(() {
         _currentIndex = index;
@@ -452,7 +457,11 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
       /// currently open.
       final String currentLocation = widget.getCurrentLocation!(context);
       if (!currentLocation.endsWith(selectedDestination.initialLocation)) {
-        widget.onLocationChanged(context, selectedDestination.initialLocation);
+        widget.onLocationChanged(
+          context,
+          selectedDestination.initialLocation,
+          _currentIndex,
+        );
       }
     }
 
