@@ -1,4 +1,4 @@
-part of '../adaptive_navigation_scaffold.dart';
+part of '../adaptive_navigation.dart';
 
 Widget _defaultRailBuilder(
   BuildContext context,

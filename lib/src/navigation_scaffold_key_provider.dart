@@ -1,6 +1,6 @@
-part of 'adaptive_navigation_scaffold.dart';
+part of 'adaptive_navigation.dart';
 
-/// Provides the key of the scaffold used by [AdaptiveNavigationScaffold].
+/// Provides the key of the scaffold used by [AdaptiveNavigation].
 ///
 /// This is done to ease providing access to the drawer from within the child.
 class NavigationScaffoldKeyProvider extends InheritedWidget {

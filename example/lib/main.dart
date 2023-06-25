@@ -1,4 +1,5 @@
-import 'package:adaptive_navigation_scaffold/adaptive_navigation_scaffold.dart';
+
+import 'package:adaptive_navigation_widget/adaptive_navigation_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -51,7 +52,7 @@ class _ExampleState extends State<Example> {
         ),
       ),
       home: Builder(builder: (context) {
-        return AdaptiveNavigationScaffold(
+        return AdaptiveNavigation(
           destinations: destinations,
 
           /// Low values to show the auto-added drawer.

@@ -1,4 +1,4 @@
-part of 'adaptive_navigation_scaffold.dart';
+part of 'adaptive_navigation.dart';
 
 /// The navigation mechanism to configure the [Scaffold] with.
 enum NavigationType {

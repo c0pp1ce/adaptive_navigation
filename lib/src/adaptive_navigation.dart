@@ -45,8 +45,8 @@ typedef PermanentDrawerBuilder = Widget Function(
 
 /// A widget which wraps a [Scaffold] and displays different forms of navigation
 /// based on the screen size.
-class AdaptiveNavigationScaffold extends StatefulWidget {
-  const AdaptiveNavigationScaffold({
+class AdaptiveNavigation extends StatefulWidget {
+  const AdaptiveNavigation({
     super.key,
     // raw functionality.
     required this.navigationTypeResolver,
@@ -270,10 +270,10 @@ class AdaptiveNavigationScaffold extends StatefulWidget {
   final Widget? child;
 
   @override
-  State<AdaptiveNavigationScaffold> createState() => _AdaptiveNavigationScaffoldState();
+  State<AdaptiveNavigation> createState() => _AdaptiveNavigationState();
 }
 
-class _AdaptiveNavigationScaffoldState extends State<AdaptiveNavigationScaffold> {
+class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
   final GlobalKey<ScaffoldState> _adaptiveNavigationScaffoldKey = GlobalKey();
   late int _currentIndex = widget.initialIndex;
   late NavigationType _currentNavType;

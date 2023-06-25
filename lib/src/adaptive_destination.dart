@@ -1,4 +1,4 @@
-part of 'adaptive_navigation_scaffold.dart';
+part of 'adaptive_navigation.dart';
 
 /// Base for the destination configuration of the different [NavigationType]s.
 class AdaptiveDestination {
