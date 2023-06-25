@@ -1,4 +1,3 @@
-
 import 'package:adaptive_navigation_widget/adaptive_navigation_widget.dart';
 import 'package:flutter/material.dart';
 

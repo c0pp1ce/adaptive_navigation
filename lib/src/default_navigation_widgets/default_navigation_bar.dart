@@ -44,4 +44,3 @@ class _DefaultNavigationBar extends StatelessWidget {
     );
   }
 }
-
