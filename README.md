@@ -18,6 +18,8 @@ This package provides a widget which can display different types of navigation b
 - Customizable breakpoints
 - Customizable navigation widgets
 
+<img src="https://raw.githubusercontent.com/c0pp1ce/adaptive_navigation_scaffold/7e28b4cc0e81bc4a428d5a0e16fb525c8498cf38/example/gifs/adaptive_nav_demo.gif" alt="Gif of the widget in action." width="1000">
+
 #### Supported navigation types
 
 - bottom navigation bar
