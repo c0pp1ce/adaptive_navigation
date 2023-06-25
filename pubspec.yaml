@@ -1,7 +1,7 @@
 name: adaptive_navigation_widget
 description: A Flutter package to ease the development of an adaptive navigation.
 version: 0.0.2
-repository: https://github.com/c0pp1ce/adaptive_navigation_scaffold
+repository: https://github.com/c0pp1ce/adaptive_navigation
 
 environment:
   sdk: ">=3.0.5 <4.0.0"
