@@ -16,7 +16,7 @@ typedef NavigationBarBuilder = Widget Function(
   BuildContext context,
   List<AdaptiveDestination> destinations,
   int currentIndex,
-  IndexResolver,
+  IndexResolver onDestinationSelected,
 );
 
 typedef DrawerBuilder = Widget Function(
