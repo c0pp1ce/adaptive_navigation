@@ -30,20 +30,22 @@ class _DefaultDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          ...destinations.asMap().keys.map((index) {
-            bool selected = index == currentIndex;
-            final destination = destinations[index];
-            return ListTile(
-              selected: selected,
-              leading: selected ? destination.selectedIcon : destination.icon,
-              title: Text(destination.getLabel(context)),
-              onTap: () => onDestinationSelected(index),
-            );
-          }),
-        ],
+      child: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            ...destinations.asMap().keys.map((index) {
+              bool selected = index == currentIndex;
+              final destination = destinations[index];
+              return ListTile(
+                selected: selected,
+                leading: selected ? destination.selectedIcon : destination.icon,
+                title: Text(destination.getLabel(context)),
+                onTap: () => onDestinationSelected(index),
+              );
+            }),
+          ],
+        ),
       ),
     );
   }
