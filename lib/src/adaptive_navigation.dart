@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 part 'navigation_type.dart';
 part 'adaptive_destination.dart';
+part 'adaptive_navigation_scaffold.dart';
 part 'default_navigation_widgets/default_navigation_bar.dart';
 part 'default_navigation_widgets/default_rail.dart';
 part 'default_navigation_widgets/default_drawer.dart';
@@ -48,7 +49,6 @@ class AdaptiveNavigation extends StatefulWidget {
   const AdaptiveNavigation({
     super.key,
     // raw functionality.
-    this.scaffoldKey,
     required this.navigationTypeResolver,
     this.initialIndex = 0,
     required this.destinations,
@@ -73,9 +73,6 @@ class AdaptiveNavigation extends StatefulWidget {
     // page content
     this.child,
   });
-
-  /// The key of the [Scaffold] which holds the navigation elements.
-  final GlobalKey<ScaffoldState>? scaffoldKey;
 
   /// Determines the [NavigationType] that the [Scaffold] will be configured
   /// with.
@@ -277,6 +274,7 @@ class AdaptiveNavigation extends StatefulWidget {
 }
 
 class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
+  final GlobalKey<ScaffoldState> _adaptiveNavigationScaffoldKey = GlobalKey();
   late int _currentIndex = widget.initialIndex;
   late NavigationType _currentNavType;
 
@@ -402,7 +400,7 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
     required NavigationType navType,
   }) {
     return Scaffold(
-      key: widget.scaffoldKey,
+      key: _adaptiveNavigationScaffoldKey,
       // scaffold customization.
       primary: widget.primary,
       appBar: widget.appBar,
@@ -417,11 +415,15 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
               (i) => _onIndexSelected(context, i),
             )
           : null,
-      body: navType == NavigationType.bottom ||
-              navType == NavigationType.drawer ||
-              navWidget == null
-          ? widget.child
-          : navWidget,
+      body: NavigationScaffoldKeyProvider(
+        scaffoldKey: _adaptiveNavigationScaffoldKey,
+        child: (navType == NavigationType.bottom ||
+                    navType == NavigationType.drawer ||
+                    navWidget == null
+                ? widget.child
+                : navWidget) ??
+            const SizedBox(),
+      ),
     );
   }
 
@@ -476,7 +478,7 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
     }
 
     if (widget.closeDrawerAfterNavigation) {
-      widget.scaffoldKey?.currentState?.closeDrawer();
+      _adaptiveNavigationScaffoldKey.currentState?.closeDrawer();
     }
   }
 

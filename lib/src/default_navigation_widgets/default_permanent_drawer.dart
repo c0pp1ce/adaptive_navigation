@@ -33,10 +33,19 @@ class _DefaultPermanentDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        _DefaultDrawer(
-          currentIndex: currentIndex,
-          destinations: destinations,
-          onDestinationSelected: onDestinationSelected,
+        Theme(
+          data: Theme.of(context).copyWith(
+            drawerTheme: Theme.of(context).drawerTheme.copyWith(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                ),
+          ),
+          child: _DefaultDrawer(
+            currentIndex: currentIndex,
+            destinations: destinations,
+            onDestinationSelected: onDestinationSelected,
+          ),
         ),
         Expanded(
           child: child ?? const SizedBox(),
