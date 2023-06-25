@@ -271,6 +271,9 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
   @override
   void didChangeDependencies() {
     _currentNavType = widget.navigationTypeResolver(context);
+    if (widget.getCurrentLocation != null) {
+      _currentIndex = _locationToIndex(widget.getCurrentLocation!(context));
+    }
     super.didChangeDependencies();
   }
 
@@ -460,24 +463,16 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
 
   /// Calculates the current index based on the given [location] and the list of
   /// [destinations].
-  /// TODO : Remove if not needed.
-  /*int _locationToIndex(
-      String location, {
-        bool initialCall = false,
-      }) {
-    if (initialCall) {
-      return widget.initialIndex;
-    }
-
+  int _locationToIndex(String location) {
     final index = widget.destinations.indexWhere(
-          (destination) => location.startsWith(
+      (destination) => location.startsWith(
         destination.initialLocation,
       ),
     );
     assert(
-    index > -1,
-    "Given location $location does not match any destination.",
+      index > -1,
+      "Given location $location does not match any destination.",
     );
     return index;
-  }*/
+  }
 }
