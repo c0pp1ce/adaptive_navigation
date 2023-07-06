@@ -1,3 +1,6 @@
+## 0.0.5
+* Separated location change and tapping on the active index.
+
 ## 0.0.4
 * Improved doc comments
 * Added missing parameter name in typedef

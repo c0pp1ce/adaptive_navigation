@@ -58,7 +58,7 @@ class AdaptiveNavigation extends StatefulWidget {
     this.initialIndex = 0,
     required this.destinations,
     required this.onLocationChanged,
-    this.getCurrentLocation,
+    this.onCurrentIndexSelected,
     this.bottomNavigationOverflow = 5,
     this.railNavigationOverflow = 7,
     this.extendedRailNavigationOverflow = 7,
@@ -122,11 +122,20 @@ class AdaptiveNavigation extends StatefulWidget {
     int index,
   ) onLocationChanged;
 
-  /// A method invoked by the [AdaptiveNavigation] in order to determine,
-  /// if a sub-route of a destination is open.
+  /// A callback which should execute any logic that should happen if the
+  /// currently active index is tapped again.
   ///
-  /// Used to go back to the initial location of a destination if it is tapped.
-  final String Function(BuildContext)? getCurrentLocation;
+  /// This can e.g. be used to return to the initial location of the index.
+  ///
+  /// ### Example for GoRouter
+  /// ```dart
+  /// onLocationChanged: (context, initialLocation, index) => context.go(initialLocation),
+  /// ```
+  final void Function(
+    BuildContext context,
+    String location,
+    int index,
+  )? onCurrentIndexSelected;
 
   /// Maximum number of items to display when using [NavigationType.bottom].
   ///
@@ -325,9 +334,6 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
   @override
   void didChangeDependencies() {
     _currentNavType = widget.navigationTypeResolver(context);
-    if (widget.getCurrentLocation != null) {
-      _currentIndex = _locationToIndex(widget.getCurrentLocation!(context));
-    }
     super.didChangeDependencies();
   }
 
@@ -510,15 +516,12 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
       setState(() {
         _currentIndex = index;
       });
-    } else if (widget.getCurrentLocation != null) {
-      /// Go back to the initial location of the destination if a sub-route is
-      /// currently open.
-      final String currentLocation = widget.getCurrentLocation!(context);
-      if (!currentLocation.endsWith(selectedDestination.initialLocation)) {
-        widget.onLocationChanged(
+    } else {
+      if (widget.onCurrentIndexSelected != null) {
+        widget.onCurrentIndexSelected!(
           context,
           selectedDestination.initialLocation,
-          _currentIndex,
+          index,
         );
       }
     }
@@ -526,20 +529,5 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
     if (widget.closeDrawerAfterNavigation) {
       _adaptiveNavigationScaffoldKey.currentState?.closeDrawer();
     }
-  }
-
-  /// Calculates the current index based on the given [location] and the list of
-  /// [destinations].
-  int _locationToIndex(String location) {
-    final index = widget.destinations.indexWhere(
-      (destination) => location.startsWith(
-        destination.initialLocation,
-      ),
-    );
-    assert(
-      index > -1,
-      "Given location $location does not match any destination.",
-    );
-    return index;
   }
 }
