@@ -77,6 +77,7 @@ class AdaptiveNavigation extends StatefulWidget {
     this.extendBody = false,
     this.extendBodyBehindAppBar = false,
     this.resizeToAvoidBottomInset,
+    this.backgroundColor,
 
     // page content
     this.child,
@@ -331,6 +332,9 @@ class AdaptiveNavigation extends StatefulWidget {
   /// [Scaffold.resizeToAvoidBottomInset].
   final bool? resizeToAvoidBottomInset;
 
+  /// [Scaffold.backgroundColor].
+  final Color? backgroundColor;
+
   /// The actual page content.
   final Widget? child;
 
@@ -471,6 +475,7 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
       extendBody: widget.extendBody,
       extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
       resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+      backgroundColor: widget.backgroundColor,
 
       // navigation.
       bottomNavigationBar: navType == NavigationType.bottom ? navWidget : null,

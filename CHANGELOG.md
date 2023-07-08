@@ -1,3 +1,6 @@
+## 0.0.7
+* You can now color the scaffold!
+
 ## 0.0.6
 * More control over the navigation scaffold.
 
