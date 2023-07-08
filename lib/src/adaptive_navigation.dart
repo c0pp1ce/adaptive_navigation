@@ -74,6 +74,9 @@ class AdaptiveNavigation extends StatefulWidget {
     // scaffold configuration
     this.primary = true,
     this.appBar,
+    this.extendBody = false,
+    this.extendBodyBehindAppBar = false,
+    this.resizeToAvoidBottomInset,
 
     // page content
     this.child,
@@ -319,6 +322,15 @@ class AdaptiveNavigation extends StatefulWidget {
   /// [Scaffold.appBar].
   final PreferredSizeWidget? appBar;
 
+  /// [Scaffold.extendBody].
+  final bool extendBody;
+
+  /// [Scaffold.extendBodyBehindAppBar].
+  final bool extendBodyBehindAppBar;
+
+  /// [Scaffold.resizeToAvoidBottomInset].
+  final bool? resizeToAvoidBottomInset;
+
   /// The actual page content.
   final Widget? child;
 
@@ -456,6 +468,9 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
       // scaffold customization.
       primary: widget.primary,
       appBar: widget.appBar,
+      extendBody: widget.extendBody,
+      extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
 
       // navigation.
       bottomNavigationBar: navType == NavigationType.bottom ? navWidget : null,

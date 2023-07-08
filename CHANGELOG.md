@@ -1,3 +1,6 @@
+## 0.0.6
+* More control over the navigation scaffold.
+
 ## 0.0.5
 * Separated location change and tapping on the active index.
 
