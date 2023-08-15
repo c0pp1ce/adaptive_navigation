@@ -1,3 +1,6 @@
+## 0.0.9
+* Fixed missing initialization.
+
 ## 0.0.8
 * Changed parameter name to currentIndex and updated its documentation.
 

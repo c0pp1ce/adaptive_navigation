@@ -355,7 +355,7 @@ class AdaptiveNavigation extends StatefulWidget {
 
 class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
   final GlobalKey<ScaffoldState> _adaptiveNavigationScaffoldKey = GlobalKey();
-  late int _currentIndex;
+  late int _currentIndex = widget.currentIndex;
   late NavigationType _currentNavType;
 
   @override
