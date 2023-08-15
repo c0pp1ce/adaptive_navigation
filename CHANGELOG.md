@@ -1,3 +1,6 @@
+## 0.0.8
+* Changed parameter name to currentIndex and updated its documentation.
+
 ## 0.0.7
 * You can now color the scaffold!
 

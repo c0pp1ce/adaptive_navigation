@@ -55,7 +55,7 @@ class AdaptiveNavigation extends StatefulWidget {
     super.key,
     // raw functionality.
     required this.navigationTypeResolver,
-    this.initialIndex = 0,
+    this.currentIndex = 0,
     required this.destinations,
     required this.onLocationChanged,
     this.onCurrentIndexSelected,
@@ -103,8 +103,19 @@ class AdaptiveNavigation extends StatefulWidget {
   /// ```
   final NavigationType Function(BuildContext) navigationTypeResolver;
 
-  /// The initial index that the widget should be configured with.
-  final int initialIndex;
+  /// Primarily used to initialize the current index of the internal state.
+  ///
+  /// ### Change the internal current index from outside
+  /// If this value gets changed by (e.g.) a button that is not
+  /// controlled by [AdaptiveNavigation] you need to use a [GlobalKey] in order
+  /// to correctly update the UI:
+  /// ```dart
+  /// AdaptiveNavigation(
+  ///   key: GlobalKey(),
+  ///   currentIndex: _index,
+  ///   //...
+  /// ),
+  final int currentIndex;
 
   /// Configures the different tabs/routes that can be reached via the active
   /// [NavigationType].
@@ -344,7 +355,7 @@ class AdaptiveNavigation extends StatefulWidget {
 
 class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
   final GlobalKey<ScaffoldState> _adaptiveNavigationScaffoldKey = GlobalKey();
-  late int _currentIndex = widget.initialIndex;
+  late int _currentIndex;
   late NavigationType _currentNavType;
 
   @override
