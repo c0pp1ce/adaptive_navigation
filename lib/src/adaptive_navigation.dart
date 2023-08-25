@@ -55,10 +55,10 @@ class AdaptiveNavigation extends StatefulWidget {
     super.key,
     // raw functionality.
     required this.navigationTypeResolver,
-    this.currentIndex = 0,
+    this.initialIndex = 0,
     required this.destinations,
-    required this.onLocationChanged,
-    this.onCurrentIndexSelected,
+    required this.onDestinationChanged,
+    this.onCurrentDestinationSelected,
     this.bottomNavigationOverflow = 5,
     this.railNavigationOverflow = 7,
     this.extendedRailNavigationOverflow = 7,
@@ -103,19 +103,18 @@ class AdaptiveNavigation extends StatefulWidget {
   /// ```
   final NavigationType Function(BuildContext) navigationTypeResolver;
 
-  /// Primarily used to initialize the current index of the internal state.
+  /// Used to initialize the current index of the internal state.
   ///
   /// ### Change the internal current index from outside
-  /// If this value gets changed by (e.g.) a button that is not
-  /// controlled by [AdaptiveNavigation] you need to use a [GlobalKey] in order
-  /// to correctly update the UI:
+  /// If this value gets changed by (e.g.) a button that is not directly
+  /// controlled by [AdaptiveNavigation] you need access the corresponding state
+  /// method.
   /// ```dart
-  /// AdaptiveNavigation(
-  ///   key: GlobalKey(),
-  ///   currentIndex: _index,
-  ///   //...
-  /// ),
-  final int currentIndex;
+  /// onTap() {
+  ///   AdaptiveNavigation.of(context).onIndexSelected(context, index: 1);
+  /// }
+  /// ```
+  final int initialIndex;
 
   /// Configures the different tabs/routes that can be reached via the active
   /// [NavigationType].
@@ -127,30 +126,33 @@ class AdaptiveNavigation extends StatefulWidget {
   /// A callback which should execute the routing logic based on the tapped
   /// destination.
   ///
-  /// ### Example for GoRouter
+  /// Only called if the selected index is not the same as the active index.
+  ///
+  /// ### Example for GoRouter (StatefulShellRoute)
   /// ```dart
-  /// onLocationChanged: (context, location, index) => context.go(location)
+  /// onDestinationChanged: (context, initialPath, index) => navigationShell.goBranch(index),
   /// ```
   final void Function(
     BuildContext context,
-    String location,
+    String initialPath,
     int index,
-  ) onLocationChanged;
+  ) onDestinationChanged;
 
   /// A callback which should execute any logic that should happen if the
-  /// currently active index is tapped again.
+  /// currently active destination is tapped again.
   ///
-  /// This can e.g. be used to return to the initial location of the index.
+  /// This can e.g. be used to return to the initial path of the destination.
   ///
-  /// ### Example for GoRouter
+  /// ### Example for GoRouter (StatefulShellRoute)
   /// ```dart
-  /// onLocationChanged: (context, initialLocation, index) => context.go(initialLocation),
+  /// onCurrentDestinationSelected: (context, initialPath, index) =>
+  ///         navigationShell.goBranch(index, initialLocation: true),
   /// ```
   final void Function(
     BuildContext context,
-    String location,
+    String initialPath,
     int index,
-  )? onCurrentIndexSelected;
+  )? onCurrentDestinationSelected;
 
   /// Maximum number of items to display when using [NavigationType.bottom].
   ///
@@ -349,14 +351,31 @@ class AdaptiveNavigation extends StatefulWidget {
   /// The actual page content.
   final Widget? child;
 
+  static AdaptiveNavigationState? maybeOf(BuildContext context) {
+    return context.findAncestorStateOfType<AdaptiveNavigationState>();
+  }
+
+  static AdaptiveNavigationState of(BuildContext context) {
+    final state = maybeOf(context);
+    assert(state != null, "No _AdaptiveNavigationState found in context.");
+    return state!;
+  }
+
   @override
-  State<AdaptiveNavigation> createState() => _AdaptiveNavigationState();
+  State<AdaptiveNavigation> createState() => AdaptiveNavigationState();
 }
 
-class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
+class AdaptiveNavigationState extends State<AdaptiveNavigation> {
   final GlobalKey<ScaffoldState> _adaptiveNavigationScaffoldKey = GlobalKey();
-  late int _currentIndex = widget.currentIndex;
+  late int _currentIndex = widget.initialIndex;
   late NavigationType _currentNavType;
+
+  /// A simple method that switches to the specified tab.
+  ///
+  /// It uses the relevant methods that can be customized for the [AdaptiveNavigation].
+  void onIndexSelected(BuildContext context, {required int index}) {
+    _onIndexSelected(context, index);
+  }
 
   @override
   void didChangeDependencies() {
@@ -539,19 +558,19 @@ class _AdaptiveNavigationState extends State<AdaptiveNavigation> {
 
     if (index != _currentIndex) {
       /// Simply switch the current destination.
-      widget.onLocationChanged(
+      widget.onDestinationChanged(
         context,
-        selectedDestination.initialLocation,
+        selectedDestination.initialPath,
         index,
       );
       setState(() {
         _currentIndex = index;
       });
     } else {
-      if (widget.onCurrentIndexSelected != null) {
-        widget.onCurrentIndexSelected!(
+      if (widget.onCurrentDestinationSelected != null) {
+        widget.onCurrentDestinationSelected!(
           context,
-          selectedDestination.initialLocation,
+          selectedDestination.initialPath,
           index,
         );
       }

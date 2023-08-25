@@ -3,7 +3,7 @@ part of 'adaptive_navigation.dart';
 /// Base for the destination configuration of the different [NavigationType]s.
 class AdaptiveDestination {
   const AdaptiveDestination({
-    required this.initialLocation,
+    required this.initialPath,
     required this.icon,
     required this.selectedIcon,
     required this.label,
@@ -15,7 +15,7 @@ class AdaptiveDestination {
   /// The top-most location (url/path) of the destination.
   ///
   /// Used to calculate the current index.
-  final String initialLocation;
+  final String initialPath;
   final Widget icon;
   final Widget selectedIcon;
 

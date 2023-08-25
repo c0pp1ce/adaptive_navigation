@@ -20,19 +20,19 @@ class _ExampleState extends State<Example> {
 
   final List<AdaptiveDestination> destinations = [
     const AdaptiveDestination(
-      initialLocation: "/home",
+      initialPath: "/home",
       icon: Icon(Icons.home_outlined),
       selectedIcon: Icon(Icons.home),
       label: "Home",
     ),
     const AdaptiveDestination(
-      initialLocation: "/feed",
+      initialPath: "/feed",
       icon: Icon(Icons.feed_outlined),
       selectedIcon: Icon(Icons.feed),
       label: "Feed",
     ),
     const AdaptiveDestination(
-      initialLocation: "/profile",
+      initialPath: "/profile",
       icon: Icon(Icons.person_outlined),
       selectedIcon: Icon(Icons.person),
       label: "Profile",
@@ -84,12 +84,10 @@ class _ExampleState extends State<Example> {
 
           /// Updates the index in order to switch what the [IndexedStack] is
           /// displaying.
-          onLocationChanged: (context, location, index) {
-            if (index != _index) {
-              setState(() {
-                _index = index;
-              });
-            }
+          onDestinationChanged: (context, location, index) {
+            setState(() {
+              _index = index;
+            });
           },
           child: IndexedStack(
             index: _index,
