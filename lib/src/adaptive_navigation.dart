@@ -2,13 +2,13 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-part 'navigation_type.dart';
 part 'adaptive_destination.dart';
-part 'navigation_scaffold_key_provider.dart';
-part 'default_navigation_widgets/default_navigation_bar.dart';
-part 'default_navigation_widgets/default_rail.dart';
 part 'default_navigation_widgets/default_drawer.dart';
+part 'default_navigation_widgets/default_navigation_bar.dart';
 part 'default_navigation_widgets/default_permanent_drawer.dart';
+part 'default_navigation_widgets/default_rail.dart';
+part 'navigation_scaffold_key_provider.dart';
+part 'navigation_type.dart';
 
 /// A method that takes an index and triggers the routing/navigation logic.
 ///
@@ -37,6 +37,7 @@ typedef RailBuilder = Widget Function(
   int currentIndex,
   IndexResolver onDestinationSelected,
   bool isExtended,
+  NavigationRailLabelType? navigationRailLabelType,
   Widget? child,
 );
 
@@ -78,6 +79,7 @@ class AdaptiveNavigation extends StatefulWidget {
     this.extendBodyBehindAppBar = false,
     this.resizeToAvoidBottomInset,
     this.backgroundColor,
+    this.navigationRailLabelType,
 
     // page content
     this.child,
@@ -348,6 +350,9 @@ class AdaptiveNavigation extends StatefulWidget {
   /// [Scaffold.backgroundColor].
   final Color? backgroundColor;
 
+  /// The navigation rail label type.
+  final NavigationRailLabelType? navigationRailLabelType;
+
   /// The actual page content.
   final Widget? child;
 
@@ -465,6 +470,7 @@ class AdaptiveNavigationState extends State<AdaptiveNavigation> {
         _currentIndex,
         (i) => _onIndexSelected(context, i),
         type == NavigationType.extendedRail,
+        widget.navigationRailLabelType,
         widget.child,
       );
     }

@@ -6,6 +6,7 @@ Widget _defaultRailBuilder(
   int currentIndex,
   IndexResolver onDestinationSelected,
   bool isExtended,
+  NavigationRailLabelType? navigationRailLabelType,
   Widget? child,
 ) {
   return _DefaultRail(
@@ -13,6 +14,7 @@ Widget _defaultRailBuilder(
     destinations: destinations,
     onDestinationSelected: onDestinationSelected,
     isExtended: isExtended,
+    navigationRailLabelType: navigationRailLabelType,
     child: child,
   );
 }
@@ -23,6 +25,7 @@ class _DefaultRail extends StatelessWidget {
     required this.destinations,
     required this.onDestinationSelected,
     required this.isExtended,
+    this.navigationRailLabelType,
     this.child,
     Key? key,
   }) : super(key: key);
@@ -30,6 +33,7 @@ class _DefaultRail extends StatelessWidget {
   final int currentIndex;
   final List<AdaptiveDestination> destinations;
   final IndexResolver onDestinationSelected;
+  final NavigationRailLabelType? navigationRailLabelType;
   final bool isExtended;
   final Widget? child;
 
@@ -41,6 +45,7 @@ class _DefaultRail extends StatelessWidget {
           extended: isExtended,
           selectedIndex: currentIndex,
           onDestinationSelected: onDestinationSelected,
+          labelType: navigationRailLabelType,
           destinations: [
             for (final destination in destinations)
               NavigationRailDestination(
