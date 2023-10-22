@@ -109,7 +109,7 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
   Widget build(final BuildContext context) => MaterialApp.router(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          colorSchemeSeed: Colors.deepPurple,
           useMaterial3: true,
         ),
         routerConfig: _router,
