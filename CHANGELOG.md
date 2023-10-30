@@ -1,3 +1,7 @@
+## 0.0.11
+* Improved naming.
+* Fixed examples in docs.
+
 ## 0.0.10
 * Improved naming
 * Added an easy way to react to index changes that are not controlled by AdaptiveNavigation.

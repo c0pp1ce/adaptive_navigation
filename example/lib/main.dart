@@ -55,7 +55,7 @@ class _ExampleState extends State<Example> {
           destinations: destinations,
 
           /// Low values to show the auto-added drawer.
-          bottomNavigationOverflow: 2,
+          navigationBarOverflow: 2,
           railNavigationOverflow: 2,
 
           /// Makes the scaffold used by this widget the primary scaffold.

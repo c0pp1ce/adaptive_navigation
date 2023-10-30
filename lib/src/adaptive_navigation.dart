@@ -59,7 +59,7 @@ class AdaptiveNavigation extends StatefulWidget {
     required this.destinations,
     required this.onDestinationChanged,
     this.onCurrentDestinationSelected,
-    this.bottomNavigationOverflow = 5,
+    this.navigationBarOverflow = 5,
     this.railNavigationOverflow = 7,
     this.extendedRailNavigationOverflow = 7,
     this.includeBaseDestinationsInMenu = true,
@@ -158,7 +158,7 @@ class AdaptiveNavigation extends StatefulWidget {
   ///
   /// Exceeding items will be placed in a drawer. It may be configured through
   /// [AdaptiveNavigation.drawerBuilder].
-  final int bottomNavigationOverflow;
+  final int navigationBarOverflow;
 
   /// Maximum number of items to display when using [NavigationType.rail].
   ///
@@ -252,6 +252,7 @@ class AdaptiveNavigation extends StatefulWidget {
   ///     ],
   ///   );
   /// }
+  /// ```
   final RailBuilder railBuilder;
 
   /// Should provide a widget that is used as the drawer navigation.
@@ -284,6 +285,7 @@ class AdaptiveNavigation extends StatefulWidget {
   ///     ),
   ///   );
   /// }
+  /// ```
   final DrawerBuilder drawerBuilder;
 
   /// Should provide a widget that is used as the permanent drawer navigation.
@@ -425,7 +427,7 @@ class AdaptiveNavigationState extends State<AdaptiveNavigation> {
 
   Widget _buildBottomNavigationScaffold(BuildContext context) {
     final (primaryDestinations, overflowDestinations) = _getDestinations(
-      widget.bottomNavigationOverflow,
+      widget.navigationBarOverflow,
     );
 
     late final Widget? navBar;
