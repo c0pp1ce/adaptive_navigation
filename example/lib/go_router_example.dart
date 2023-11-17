@@ -11,7 +11,9 @@ void main() {
   runApp(NestedTabNavigationExampleApp());
 }
 
+/// An example demonstrating how to use nested navigators
 class NestedTabNavigationExampleApp extends StatelessWidget {
+  /// Creates a NestedTabNavigationExampleApp
   NestedTabNavigationExampleApp({super.key});
 
   final GoRouter _router = GoRouter(
@@ -24,17 +26,23 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
           final GoRouterState state,
           final StatefulNavigationShell navigationShell,
         ) =>
-            ScaffoldWithNavBar(navigationShell: navigationShell),
+            AdaptiveNavigationShell(navigationShell: navigationShell),
         branches: <StatefulShellBranch>[
+          // The route branch for the first tab of the bottom navigation bar.
           StatefulShellBranch(
             navigatorKey: _sectionANavigatorKey,
             routes: <RouteBase>[
               GoRoute(
+                // The screen to display as the root in the first tab of the
+                // bottom navigation bar.
                 path: '/a',
                 builder:
                     (final BuildContext context, final GoRouterState state) =>
                         const RootScreen(label: 'A', detailsPath: '/a/details'),
                 routes: <RouteBase>[
+                  // The details screen to display stacked on navigator of the
+                  // first tab. This will cover screen A but not the application
+                  // shell (bottom navigation bar).
                   GoRoute(
                     path: 'details',
                     builder: (
@@ -47,9 +55,15 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
               ),
             ],
           ),
+
+          // The route branch for the second tab of the bottom navigation bar.
           StatefulShellBranch(
+            // It's not necessary to provide a navigatorKey if it isn't also
+            // needed elsewhere. If not provided, a default key will be used.
             routes: <RouteBase>[
               GoRoute(
+                // The screen to display as the root in the second tab of the
+                // bottom navigation bar.
                 path: '/b',
                 builder:
                     (final BuildContext context, final GoRouterState state) =>
@@ -74,9 +88,13 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
               ),
             ],
           ),
+
+          // The route branch for the third tab of the bottom navigation bar.
           StatefulShellBranch(
             routes: <RouteBase>[
               GoRoute(
+                // The screen to display as the root in the third tab of the
+                // bottom navigation bar.
                 path: '/c',
                 builder:
                     (final BuildContext context, final GoRouterState state) =>
@@ -116,9 +134,13 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
       );
 }
 
-class ScaffoldWithNavBar extends StatelessWidget {
-  ScaffoldWithNavBar({required this.navigationShell, super.key});
+/// Builds the "shell" for the app by building a Scaffold with a
+/// BottomNavigationBar, where [child] is placed in the body of the Scaffold.
+class AdaptiveNavigationShell extends StatelessWidget {
+  /// Constructs an [AdaptiveNavigationShell].
+  AdaptiveNavigationShell({required this.navigationShell, super.key});
 
+  /// The navigation shell and container for the branch Navigators.
   final StatefulNavigationShell navigationShell;
 
   final List<AdaptiveDestination> destinations = <AdaptiveDestination>[
@@ -165,12 +187,19 @@ class ScaffoldWithNavBar extends StatelessWidget {
           final String initialPath,
           final int index,
         ) =>
+            // Navigate to the current location of the branch at the provided index when
+            // tapping an item in the navigation.
+            // When navigating to a new branch, it's recommended to use the goBranch
+            // method, as doing so makes sure the last navigation state of the
+            // Navigator for the branch is restored.
             navigationShell.goBranch(index, initialLocation: true),
         child: navigationShell,
       );
 }
 
+/// Widget for the root/initial pages in the bottom navigation bar.
 class RootScreen extends StatelessWidget {
+  /// Creates a RootScreen
   const RootScreen({
     required this.label,
     required this.detailsPath,
@@ -178,10 +207,13 @@ class RootScreen extends StatelessWidget {
     super.key,
   });
 
+  /// The label
   final String label;
 
+  /// The path to the detail page
   final String detailsPath;
 
+  /// The path to another detail page
   final String? secondDetailsPath;
 
   @override
@@ -218,7 +250,9 @@ class RootScreen extends StatelessWidget {
       );
 }
 
+/// The details screen for either the A or B screen.
 class DetailsScreen extends StatefulWidget {
+  /// Constructs a [DetailsScreen].
   const DetailsScreen({
     required this.label,
     this.param,
@@ -227,18 +261,23 @@ class DetailsScreen extends StatefulWidget {
     super.key,
   });
 
+  /// The label to display in the center of the screen.
   final String label;
 
+  /// Optional param
   final String? param;
 
+  /// Optional extra object
   final Object? extra;
 
+  /// Wrap in scaffold
   final bool withScaffold;
 
   @override
   State<StatefulWidget> createState() => DetailsScreenState();
 }
 
+/// The state for DetailsScreen
 class DetailsScreenState extends State<DetailsScreen> {
   int _counter = 0;
 
