@@ -28,13 +28,13 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
         ) =>
             AdaptiveNavigationShell(navigationShell: navigationShell),
         branches: <StatefulShellBranch>[
-          // The route branch for the first tab of the bottom navigation bar.
+          // The route branch for the first tab of the navigation shell.
           StatefulShellBranch(
             navigatorKey: _sectionANavigatorKey,
             routes: <RouteBase>[
               GoRoute(
                 // The screen to display as the root in the first tab of the
-                // bottom navigation bar.
+                // navigation shell.
                 path: '/a',
                 builder:
                     (final BuildContext context, final GoRouterState state) =>
@@ -42,7 +42,7 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
                 routes: <RouteBase>[
                   // The details screen to display stacked on navigator of the
                   // first tab. This will cover screen A but not the application
-                  // shell (bottom navigation bar).
+                  // shell (navigation shell).
                   GoRoute(
                     path: 'details',
                     builder: (
@@ -56,14 +56,14 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
             ],
           ),
 
-          // The route branch for the second tab of the bottom navigation bar.
+          // The route branch for the second tab of the navigation shell.
           StatefulShellBranch(
             // It's not necessary to provide a navigatorKey if it isn't also
             // needed elsewhere. If not provided, a default key will be used.
             routes: <RouteBase>[
               GoRoute(
                 // The screen to display as the root in the second tab of the
-                // bottom navigation bar.
+                // navigation shell.
                 path: '/b',
                 builder:
                     (final BuildContext context, final GoRouterState state) =>
@@ -89,12 +89,12 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
             ],
           ),
 
-          // The route branch for the third tab of the bottom navigation bar.
+          // The route branch for the third tab of the navigation shell.
           StatefulShellBranch(
             routes: <RouteBase>[
               GoRoute(
                 // The screen to display as the root in the third tab of the
-                // bottom navigation bar.
+                // navigation shell.
                 path: '/c',
                 builder:
                     (final BuildContext context, final GoRouterState state) =>
@@ -137,7 +137,6 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
 /// Builds the "shell" for the app by building a Scaffold with a
 /// BottomNavigationBar, where [child] is placed in the body of the Scaffold.
 class AdaptiveNavigationShell extends StatelessWidget {
-  /// Constructs an [AdaptiveNavigationShell].
   AdaptiveNavigationShell({required this.navigationShell, super.key});
 
   /// The navigation shell and container for the branch Navigators.
@@ -175,13 +174,13 @@ class AdaptiveNavigationShell extends StatelessWidget {
             return NavigationType.bottom;
           }
         },
+        initialIndex: navigationShell.currentIndex,
         onDestinationChanged: (
           final BuildContext context,
           final String initialPath,
           final int index,
         ) =>
             navigationShell.goBranch(index),
-        initialIndex: navigationShell.currentIndex,
         onCurrentDestinationSelected: (
           final BuildContext context,
           final String initialPath,
@@ -197,7 +196,7 @@ class AdaptiveNavigationShell extends StatelessWidget {
       );
 }
 
-/// Widget for the root/initial pages in the bottom navigation bar.
+/// Widget for the root/initial pages in the navigation shell.
 class RootScreen extends StatelessWidget {
   /// Creates a RootScreen
   const RootScreen({
